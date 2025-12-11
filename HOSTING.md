@@ -338,7 +338,7 @@ You will need to customize various settings configured through the Ozone environ
 
 | Environment Variable    | Value                         | Should modify? | Notes                                                                      |
 | ----------------------- | ----------------------------- | -------------- | -------------------------------------------------------------------------- |
-| `OZONE_SERVER_DID`      | `did:plc:39dak...`            | ✅             | The DID of your Ozone service account, distinct from your personal account |
+| `OZONE_SERVICE_DID`     | `did:plc:39dak...`            | ✅             | The DID of your Ozone service account, distinct from your personal account |
 | `OZONE_PUBLIC_URL`      | `https://ozone.example.com`   | ✅             | Pubicly accessible URL to your Ozone service                               |
 | `OZONE_ADMIN_DIDS`      | `did:plc:39...,did:plc:f7...` | ✅             | Comma-separated list of DIDs granted access to login to your Ozone service |
 | `OZONE_ADMIN_PASSWORD`  | `3ee68...`                    | ✅             | Admin password which can be used as an API key to take certain actions     |
