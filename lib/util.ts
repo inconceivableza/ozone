@@ -1,5 +1,5 @@
 import { CollectionId } from '@/reports/helpers/subject'
-import { SOCIAL_APP_URL } from './constants'
+import { SOCIAL_APP_URL, SOCIAL_APP_DOMAIN } from './constants'
 import { AtUri } from '@atproto/api'
 
 export function classNames(...classes: (string | undefined)[]) {
@@ -57,7 +57,7 @@ export function takesKeyboardEvt(el?: EventTarget | null) {
   )
 }
 
-const blueSkyUrlMatcher = new RegExp('(https?://)?.*bsky.app')
+const blueSkyUrlMatcher = new RegExp('(https?://)?.*'+ `${SOCIAL_APP_DOMAIN}`)
 
 export const isBlueSkyAppUrl = (url: string) => blueSkyUrlMatcher.test(url)
 

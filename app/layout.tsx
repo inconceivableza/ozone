@@ -4,6 +4,7 @@ import 'yet-another-react-lightbox/styles.css'
 import 'yet-another-react-lightbox/plugins/thumbnails.css'
 import 'yet-another-react-lightbox/plugins/captions.css'
 import { ToastContainer } from 'react-toastify'
+import { PublicEnvScript } from 'next-runtime-env';
 
 import { Shell } from '@/shell/Shell'
 import { CommandPaletteRoot } from '@/shell/CommandPalette/Root'
@@ -35,6 +36,7 @@ export default function RootLayout({
         isDarkModeEnabled() ? 'dark' : ''
       }`}
     >
+      <head>
       <title>Ozone</title>
       <link
         rel="icon"
@@ -42,6 +44,8 @@ export default function RootLayout({
         sizes="any"
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <PublicEnvScript />
+      </head>
       <body className="h-full overflow-hidden">
         <ToastContainer
           position="bottom-right"

@@ -1,5 +1,7 @@
 const next = require('next')
-const {
+const ozone = require('@atproto/ozone')
+/*
+{
   readEnv,
   httpLogger,
   envToCfg,
@@ -7,6 +9,7 @@ const {
   OzoneService,
   Database,
 } = require('@atproto/ozone')
+*/
 const pkg = require('@atproto/ozone/package.json')
 
 async function main() {
@@ -16,30 +19,42 @@ async function main() {
   const frontendHandler = frontend.getRequestHandler()
   await frontend.prepare()
   // backend
-  const env = readEnv()
+  const env = ozone.readEnv()
   env.version ??= pkg.version
-  const config = envToCfg(env)
-  const secrets = envToSecrets(env)
+  const config = ozone.envToCfg(env)
+  const secrets = ozone.envToSecrets(env)
   const migrate = process.env.OZONE_DB_MIGRATE === '1'
   if (migrate) {
-    const db = new Database({
+    const db = new ozone.Database({
       url: config.db.postgresUrl,
       schema: config.db.postgresSchema,
     })
     await db.migrateToLatestOrThrow()
     await db.close()
   }
-  const ozone = await OzoneService.create(config, secrets)
+  const server = await ozone.OzoneService.create(config, secrets)
 
   // Note: We must use `use()` here. This should be the last middleware.
-  ozone.app.use((req, res) => {
+  server.app.use((req, res) => {
     void frontendHandler(req, res, undefined)
   })
   // run
-  const httpServer = await ozone.start()
+  const httpServer = await server.start()
+  // starts: involve ops from atproto/packages/dev-env/src/ozone.ts >>>
+  ozone.httpLogger.info('starts ozone daemon')
+  console.log('starts ozone daemon')
+  const daemon = await ozone.OzoneDaemon.create(config, secrets)
+  await daemon.start()
+  //if (process.env.OZONE_ENABLE_EVENT_REVERSER != 'true') // atproto/services/ozone/daemon.js doesn't stop eventReverser
+  //{
+  //    ozone.httpLogger.info('disable ozone daemon eventReverser')
+  //    await daemon.ctx.eventReverser.destroy()
+  //}
+  // ends: involve ops from atproto/packages/dev-env/src/ozone.ts <<<
+
   /** @type {import('net').AddressInfo} */
   const addr = httpServer.address()
-  httpLogger.info(`Ozone is running at http://localhost:${addr.port}`)
+  ozone.httpLogger.info(`Ozone is running at http://localhost:${addr.port}`)
 }
 
 main().catch(console.error)
