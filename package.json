@@ -10,7 +10,7 @@
   "packageManager": "yarn@4.8.1",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "atproto:build && next build",
+    "build": "yarn atproto:build && next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
