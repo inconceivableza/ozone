@@ -10,17 +10,20 @@ export async function getConfig(): Promise<OzoneConfig> {
     doc = await resolveDidDocData(labelerDid)
     const labelerUrl = doc && getServiceUrlFromDoc(doc, 'atproto_labeler')
     if (process.env.NODE_ENV === 'development' && doc && labelerUrl) {
+      console.log("accessing meta from dev config", doc, labelerUrl, labelerDid)
       meta = {
         did: labelerDid,
         url: labelerUrl,
         publicKey: getDidKeyFromDoc(doc, 'atproto_label')!,
       }
     } else {
+      console.log("accessing meta from config", labelerDid, doc, labelerUrl, OZONE_PUBLIC_URL, window.location.origin)
       meta = await getOzoneMeta(
         labelerUrl || OZONE_PUBLIC_URL || window.location.origin,
       )
     }
   } else {
+    console.log("accessing meta from OZONE_PUBLIC_URL", OZONE_PUBLIC_URL)
     meta = await getOzoneMeta(OZONE_PUBLIC_URL || window.location.origin)
     if (meta) {
       doc = await resolveDidDocData(meta.did)

@@ -42,6 +42,7 @@ async function main() {
   const httpServer = await server.start()
   // starts: involve ops from atproto/packages/dev-env/src/ozone.ts >>>
   ozone.httpLogger.info('starts ozone daemon')
+  console.log('starts ozone daemon')
   const daemon = await ozone.OzoneDaemon.create(config, secrets)
   await daemon.start()
   //if (process.env.OZONE_ENABLE_EVENT_REVERSER != 'true') // atproto/services/ozone/daemon.js doesn't stop eventReverser

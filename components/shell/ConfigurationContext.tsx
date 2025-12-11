@@ -50,6 +50,7 @@ export const ConfigurationProvider = ({
   // Derive an agent for communicating with the labeler, if we have a config and
   // an (authenticated) PDS agent.
   const { pdsAgent } = useAuthContext()
+  console.log("Using did for labeler", config)
   const labelerAgent = useMemo<Agent>(() => {
     const [did, id = 'atproto_labeler'] = config.did.split('#')
     return pdsAgent.withProxy(id, did)
