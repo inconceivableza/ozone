@@ -157,7 +157,7 @@ export function ConfigurationFlow({
         <>
           <ErrorInfo type="warn" className="mt-2">
             We could not find your Ozone service configuration. Please ensure
-            {`you're`} currently on the domain where your Ozone service is
+            {` you're`} currently on the domain where your Ozone service is
             running.
           </ErrorInfo>
           <Button
