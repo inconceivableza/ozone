@@ -24,13 +24,13 @@ const useReposts = (uri: string, cid?: string) => {
 export const Reposts = ({ uri, cid }: { uri: string; cid?: string }) => {
   const { data, fetchNextPage, hasNextPage } = useReposts(uri, cid)
   const accounts = data?.pages.flatMap((page) => page.repostedBy) || []
-  const repostedByDids = accounts.map((l) => l.did)
+  const repostedByDids = accounts.map((l) => l.profileView.did)
 
   const getSubjectsNextPage = async () => {
     const { data, hasNextPage } = await fetchNextPage()
     if (data?.pages?.length) {
       const lastPage = data?.pages[data.pages.length - 1]
-      const subjects = lastPage?.repostedBy.map((l) => l.did) || []
+      const subjects = lastPage?.repostedBy.map((l) => l.profileView.did) || []
       return { subjects, hasNextPage }
     }
 
@@ -53,7 +53,7 @@ export const Reposts = ({ uri, cid }: { uri: string; cid?: string }) => {
           }
         />
       </div>
-      <AccountsGrid error="" accounts={accounts} />
+      <AccountsGrid error="" accounts={accounts.map(account => account.profileView)} />
       {hasNextPage && (
         <div className="flex justify-center">
           <LoadMoreButton onClick={() => fetchNextPage()} />
