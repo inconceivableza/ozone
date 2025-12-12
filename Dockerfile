@@ -18,10 +18,11 @@ COPY submodules/atproto/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY submodules/atproto/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
 # pnpm list -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... --parseable --only-projects | sed 's#^.*atproto/##'
-# Paths must match pnpm-workspace.yaml: packages/*, packages/oauth/*, packages/internal/*
 COPY submodules/atproto/packages/api/package.json ./packages/api/package.json
 COPY submodules/atproto/packages/common-web/package.json ./packages/common-web/package.json
 COPY submodules/atproto/packages/lex-cli/package.json ./packages/lex-cli/package.json
+COPY submodules/atproto/packages/lex/lex-data/package.json ./packages/lex/lex-data/package.json
+COPY submodules/atproto/packages/lex/lex-json/package.json ./packages/lex/lex-json/package.json
 COPY submodules/atproto/packages/lexicon/package.json ./packages/lexicon/package.json
 COPY submodules/atproto/packages/syntax/package.json ./packages/syntax/package.json
 COPY submodules/atproto/packages/xrpc/package.json ./packages/xrpc/package.json
