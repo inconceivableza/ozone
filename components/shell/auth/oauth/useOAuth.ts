@@ -29,7 +29,11 @@ function useOAuthClient(options: ClientOptions) {
   const { clientId, handleResolver, responseMode, plcDirectoryUrl } = options
 
   const [client, setClient] = useState<null | BrowserOAuthClient>(null)
-  const fetch = useCallbackRef(options.fetch || globalThis.fetch)
+  // Masking globalThis.fetch to prevent type issues with "this" parameter
+  type Fetch = ClientOptions['fetch']
+  type FetchContext = ThisParameterType<NonNullable<Fetch>>
+  const maskGlobalThisFetch = function (this: FetchContext, input: string | URL | Request, init?: RequestInit) { return globalThis.fetch(input, init) }
+  const fetch = useCallbackRef(options.fetch || maskGlobalThisFetch)
 
   useSignaledEffect(
     (signal) => {
