@@ -17,29 +17,31 @@ COPY submodules/atproto/package.json ./package.json
 COPY submodules/atproto/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY submodules/atproto/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
-# pnpm list -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... --parseable --only-projects | sed 's#^.*atproto/##'
-COPY submodules/atproto/packages/api/package.json ./packages/api/package.json
-COPY submodules/atproto/packages/common-web/package.json ./packages/common-web/package.json
-COPY submodules/atproto/packages/lex-cli/package.json ./packages/lex-cli/package.json
-COPY submodules/atproto/packages/lex/lex-data/package.json ./packages/lex/lex-data/package.json
-COPY submodules/atproto/packages/lex/lex-json/package.json ./packages/lex/lex-json/package.json
-COPY submodules/atproto/packages/lexicon/package.json ./packages/lexicon/package.json
-COPY submodules/atproto/packages/syntax/package.json ./packages/syntax/package.json
-COPY submodules/atproto/packages/xrpc/package.json ./packages/xrpc/package.json
-COPY submodules/atproto/packages/did/package.json ./packages/did/package.json
-COPY submodules/atproto/packages/oauth/oauth-client-browser/package.json ./packages/oauth/oauth-client-browser/package.json
-COPY submodules/atproto/packages/oauth/oauth-client/package.json ./packages/oauth/oauth-client/package.json
-COPY submodules/atproto/packages/oauth/oauth-types/package.json ./packages/oauth/oauth-types/package.json
-COPY submodules/atproto/packages/oauth/jwk/package.json ./packages/oauth/jwk/package.json
-COPY submodules/atproto/packages/oauth/jwk-webcrypto/package.json ./packages/oauth/jwk-webcrypto/package.json
-COPY submodules/atproto/packages/oauth/jwk-jose/package.json ./packages/oauth/jwk-jose/package.json
-COPY submodules/atproto/packages/internal/did-resolver/package.json ./packages/internal/did-resolver/package.json
-COPY submodules/atproto/packages/internal/handle-resolver/package.json ./packages/internal/handle-resolver/package.json
-COPY submodules/atproto/packages/internal/simple-store/package.json ./packages/internal/simple-store/package.json
-COPY submodules/atproto/packages/internal/simple-store-memory/package.json ./packages/internal/simple-store-memory/package.json
-COPY submodules/atproto/packages/internal/fetch/package.json ./packages/internal/fetch/package.json
-COPY submodules/atproto/packages/internal/pipe/package.json ./packages/internal/pipe/package.json
-COPY submodules/atproto/packages/internal/identity-resolver/package.json ./packages/internal/identity-resolver/package.json
+# NOTE ozones's transitive dependencies go here: if that changes, this needs to be updated.
+# pnpm ls --only-projects --parseable -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... | sed 's#^.*atproto/##'
+COPY ./submodules/atproto/packages/api/package.json ./packages/api/package.json
+COPY ./submodules/atproto/packages/common-web/package.json ./packages/common-web/package.json
+COPY ./submodules/atproto/packages/did/package.json ./packages/did/package.json
+COPY ./submodules/atproto/packages/internal/did-resolver/package.json ./packages/internal/did-resolver/package.json
+COPY ./submodules/atproto/packages/internal/fetch/package.json ./packages/internal/fetch/package.json
+COPY ./submodules/atproto/packages/internal/handle-resolver/package.json ./packages/internal/handle-resolver/package.json
+COPY ./submodules/atproto/packages/internal/identity-resolver/package.json ./packages/internal/identity-resolver/package.json
+COPY ./submodules/atproto/packages/internal/pipe/package.json ./packages/internal/pipe/package.json
+COPY ./submodules/atproto/packages/internal/simple-store/package.json ./packages/internal/simple-store/package.json
+COPY ./submodules/atproto/packages/internal/simple-store-memory/package.json ./packages/internal/simple-store-memory/package.json
+COPY ./submodules/atproto/packages/lex-cli/package.json ./packages/lex-cli/package.json
+COPY ./submodules/atproto/packages/lex/lex-data/package.json ./packages/lex/lex-data/package.json
+COPY ./submodules/atproto/packages/lex/lex-json/package.json ./packages/lex/lex-json/package.json
+COPY ./submodules/atproto/packages/lexicon/package.json ./packages/lexicon/package.json
+COPY ./submodules/atproto/packages/oauth/jwk/package.json ./packages/oauth/jwk/package.json
+COPY ./submodules/atproto/packages/oauth/jwk-jose/package.json ./packages/oauth/jwk-jose/package.json
+COPY ./submodules/atproto/packages/oauth/jwk-webcrypto/package.json ./packages/oauth/jwk-webcrypto/package.json
+COPY ./submodules/atproto/packages/oauth/oauth-client/package.json ./packages/oauth/oauth-client/package.json
+COPY ./submodules/atproto/packages/oauth/oauth-client-browser/package.json ./packages/oauth/oauth-client-browser/package.json
+COPY ./submodules/atproto/packages/oauth/oauth-types/package.json ./packages/oauth/oauth-types/package.json
+COPY ./submodules/atproto/packages/syntax/package.json ./packages/syntax/package.json
+COPY ./submodules/atproto/packages/xrpc/package.json ./packages/xrpc/package.json
+
 
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
   pnpm install --frozen-lockfile
