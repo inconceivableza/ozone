@@ -120,7 +120,7 @@ export function useOAuth(options: UseOAuthOptions) {
             setSession(r.session)
 
             if ('state' in r) {
-              await onSignedIn(r.session, r.state)
+              await onSignedIn(r.session, r.state === undefined ? null : r.state)
             } else {
               await onRestored(r.session)
             }
