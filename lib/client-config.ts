@@ -98,7 +98,7 @@ export function getServiceUrlFromDoc(
   doc: DidDocData,
   serviceId: string,
 ): string | null {
-  return doc.services[serviceId]?.endpoint ?? null
+  return doc.services[serviceId]?.serviceEndpoint ?? null
 }
 
 async function getLabelerServiceRecord(pdsUrl: string, did: string) {

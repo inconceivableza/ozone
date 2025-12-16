@@ -480,7 +480,7 @@ async function updatePlcIdentity(
   if (services) {
     services['atproto_labeler'] = {
       type: 'AtprotoLabeler',
-      endpoint: config.meta.url,
+      serviceEndpoint: config.meta.url,
     }
   }
   const verificationMethods = config.needs.key
