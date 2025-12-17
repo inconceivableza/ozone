@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.7-labs
 FROM node:20.11-alpine3.18 as build
 
 WORKDIR /usr/src/next-runtime-env
@@ -42,9 +43,33 @@ COPY ./submodules/atproto/packages/oauth/oauth-types/package.json ./packages/oau
 COPY ./submodules/atproto/packages/syntax/package.json ./packages/syntax/package.json
 COPY ./submodules/atproto/packages/xrpc/package.json ./packages/xrpc/package.json
 
-
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
   pnpm install --frozen-lockfile
+
+COPY ./submodules/atproto/*.js* ./
+# NOTE matching transitive dependencies from above
+COPY ./submodules/atproto/packages/api ./packages/api
+COPY ./submodules/atproto/packages/common-web ./packages/common-web
+COPY ./submodules/atproto/packages/did ./packages/did
+COPY ./submodules/atproto/packages/internal/did-resolver ./packages/internal/did-resolver
+COPY ./submodules/atproto/packages/internal/fetch ./packages/internal/fetch
+COPY ./submodules/atproto/packages/internal/handle-resolver ./packages/internal/handle-resolver
+COPY ./submodules/atproto/packages/internal/identity-resolver ./packages/internal/identity-resolver
+COPY ./submodules/atproto/packages/internal/pipe ./packages/internal/pipe
+COPY ./submodules/atproto/packages/internal/simple-store ./packages/internal/simple-store
+COPY ./submodules/atproto/packages/internal/simple-store-memory ./packages/internal/simple-store-memory
+COPY ./submodules/atproto/packages/lex-cli ./packages/lex-cli
+COPY ./submodules/atproto/packages/lex/lex-data ./packages/lex/lex-data
+COPY ./submodules/atproto/packages/lex/lex-json ./packages/lex/lex-json
+COPY ./submodules/atproto/packages/lexicon ./packages/lexicon
+COPY ./submodules/atproto/packages/oauth/jwk ./packages/oauth/jwk
+COPY ./submodules/atproto/packages/oauth/jwk-jose ./packages/oauth/jwk-jose
+COPY ./submodules/atproto/packages/oauth/jwk-webcrypto ./packages/oauth/jwk-webcrypto
+COPY ./submodules/atproto/packages/oauth/oauth-client ./packages/oauth/oauth-client
+COPY ./submodules/atproto/packages/oauth/oauth-client-browser ./packages/oauth/oauth-client-browser
+COPY ./submodules/atproto/packages/oauth/oauth-types ./packages/oauth/oauth-types
+COPY ./submodules/atproto/packages/syntax ./packages/syntax
+COPY ./submodules/atproto/packages/xrpc ./packages/xrpc
 
 WORKDIR /usr/src/ozone
 
@@ -55,7 +80,7 @@ RUN sed -i 's#"next-runtime-env": .*#"next-runtime-env": "file://usr/src/next-ru
 
 RUN yarn
 RUN yarn atproto:install
-COPY . .
+COPY --exclude=submodules . .
 RUN yarn build
 RUN rm -rf node_modules .next/cache
 RUN mv service/package.json package.json && mv service/yarn.lock yarn.lock
