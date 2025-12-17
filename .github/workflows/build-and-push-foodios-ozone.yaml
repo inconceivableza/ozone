@@ -9,7 +9,7 @@ env:
   IMAGE_NAME: foodios-ozone
 
 jobs:
-  build-and-push-ozone:
+  build:
     if: github.repository == 'inconceivableza/ozone'
     runs-on: ${{ matrix.platform == 'linux/arm64' && fromJSON('["self-hosted", "macOS", "ARM64"]') || 'ubuntu-latest' }}
     strategy:
