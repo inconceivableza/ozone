@@ -16,7 +16,7 @@
     "type-check": "tsc --noEmit",
     "cypress": "cypress open",
     "e2e:run": "$(yarn bin)/cypress run --browser chrome",
-    "atproto:install": "cd submodules/atproto && pnpm  -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... install --frozen-lockfile",
+    "atproto:install": "cd submodules/atproto && NODE_ENV= pnpm  -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... install --frozen-lockfile",
     "atproto:build": "cd submodules/atproto && pnpm  -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... build"
   },
   "dependencies": {

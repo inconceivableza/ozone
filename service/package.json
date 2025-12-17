@@ -2,6 +2,11 @@
   "name": "ozone-service",
   "description": "Ozone service entrypoint",
   "main": "index.js",
+  "scripts": {
+    "build": "yarn atproto:install && yarn atproto:build",
+    "atproto:install": "cd ../submodules/atproto ; NODE_ENV= pnpm -F ozone... install --frozen-lockfile",
+    "atproto:build": "cd ../submodules/atproto ; pnpm -F ozone... build"
+  },
   "dependencies": {
     "@atproto/ozone": "link:../submodules/atproto/packages/ozone",
     "next": "15.2.7",
