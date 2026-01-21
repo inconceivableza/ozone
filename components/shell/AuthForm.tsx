@@ -6,14 +6,17 @@ import {
   CredentialSignInForm,
 } from './auth/credential/CredentialSignInForm'
 import { OAuthSignIn, OAuthSignInForm } from './auth/oauth/OAuthSignInForm'
+import { OzoneConfig } from '@/lib/client-config'
 
 export function AuthForm({
   credentialSignIn,
   oauthSignIn,
+  config,
   ...props
 }: {
   credentialSignIn?: CredentialSignIn
   oauthSignIn?: OAuthSignIn
+  config?: OzoneConfig
 } & HTMLAttributes<HTMLDivElement>) {
   return (
     <TabsPanel
@@ -29,6 +32,7 @@ export function AuthForm({
               key="credential"
               className="mt-8 space-y-6"
               signIn={credentialSignIn}
+              config={config}
             />
           ) : undefined,
         },

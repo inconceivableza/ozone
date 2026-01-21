@@ -14,6 +14,12 @@ export const PLC_DIRECTORY_URL =
     ? 'http://localhost:2582'
     : 'https://plc.directory')
 
+export const DEFAULT_PDS_URL =
+  env('NEXT_PUBLIC_DEFAULT_PDS_URL') ||
+  (process.env.NODE_ENV === 'development'
+    ? 'http://localhost:2583'
+    : 'https://bsky.social')
+
 export const QUEUE_CONFIG = env('NEXT_PUBLIC_QUEUE_CONFIG') || '{}'
 
 export const QUEUE_SEED = env('NEXT_PUBLIC_QUEUE_SEED') || ''

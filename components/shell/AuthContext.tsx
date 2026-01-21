@@ -109,6 +109,7 @@ export function AuthProvider({ children, ...options }: AuthProviderProps) {
           oauthSignIn={
             oauth.client && !config.needs.service ? oauth.signIn : undefined
           }
+          config={config}
         />
       </SetupModal>
     )

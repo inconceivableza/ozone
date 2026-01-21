@@ -1,10 +1,15 @@
 import { AppBskyLabelerService } from '@atproto/api'
-import { OZONE_PUBLIC_URL, OZONE_SERVICE_DID } from './constants'
+import { DEFAULT_PDS_URL, OZONE_PUBLIC_URL, OZONE_SERVICE_DID } from './constants'
 import { DidDocData, resolveDidDocData } from './identity'
 
 export async function getConfig(): Promise<OzoneConfig> {
   let doc: DidDocData | null = null
   let meta: OzoneMeta | null = null
+  const pdsSuggestions = [DEFAULT_PDS_URL]
+    .concat(
+      DEFAULT_PDS_URL == 'https://bsky.social' ? [] : ['https://bsky.social'],
+    )
+    .concat(['https://staging.bsky.dev'])
   const labelerDid = OZONE_SERVICE_DID?.split('#')[0] // ensure no service id
   if (labelerDid) {
     doc = await resolveDidDocData(labelerDid)
@@ -43,7 +48,7 @@ export async function getConfig(): Promise<OzoneConfig> {
   const labelerUrl = doc && getServiceUrlFromDoc(doc, 'atproto_labeler')
   const labelerKey = doc && getDidKeyFromDoc(doc, 'atproto_label')
   const handle = doc && getHandleFromDoc(doc)
-  const pdsUrl = doc && getServiceUrlFromDoc(doc, 'atproto_pds')
+  const pdsUrl = doc && getServiceUrlFromDoc(doc, 'atproto_pds') || labelerUrl?.replace('ozone.', '') // not reliable
   const record = pdsUrl ? await getLabelerServiceRecord(pdsUrl, did) : null
   return {
     did,
@@ -66,6 +71,7 @@ export async function getConfig(): Promise<OzoneConfig> {
       record: !record,
     },
     updatedAt: new Date().toISOString(),
+    pdsSuggestions,
   }
 }
 
@@ -142,6 +148,7 @@ export type OzoneConfig = {
     record: boolean
   }
   updatedAt: string
+  pdsSuggestions: Array<string>
 }
 
 export type OzoneConfigFull = OzoneConfig & {
