@@ -16,7 +16,7 @@ export function AuthForm({
 }: {
   credentialSignIn?: CredentialSignIn
   oauthSignIn?: OAuthSignIn
-  config?: OzoneConfig
+  config: OzoneConfig
 } & HTMLAttributes<HTMLDivElement>) {
   return (
     <TabsPanel
