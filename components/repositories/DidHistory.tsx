@@ -50,7 +50,7 @@ const getServiceDetails = ({
   }
   if ('services' in operation) {
     return Object.keys(operation.services || {})
-      .map((key) => `${key}(${operation.services?.[key]?.endpoint})`)
+      .map((key) => `${key}(${operation.services?.[key]?.serviceEndpoint})`)
       .join(' | ')
   }
   return ''

@@ -15,7 +15,7 @@ export const useEmailRecipientStatus = (
         return false
       }
 
-      const pdsEndpoint = response.services['atproto_pds']?.endpoint
+      const pdsEndpoint = response.services['atproto_pds']?.serviceEndpoint
       if (!pdsEndpoint) {
         return false
       }

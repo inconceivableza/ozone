@@ -4,6 +4,7 @@ import { createRef, FormEvent, useCallback, useState } from 'react'
 
 import { Alert } from '@/common/Alert'
 import { ErrorInfo } from '@/common/ErrorInfo'
+import { getConfig, OzoneConfig } from '@/lib/client-config'
 
 export type CredentialSignIn = (input: {
   identifier: string
@@ -18,16 +19,18 @@ export type CredentialSignIn = (input: {
  */
 export function CredentialSignInForm({
   signIn,
+  config,
   ...props
 }: {
   signIn: CredentialSignIn
+  config: OzoneConfig
 } & Omit<React.HTMLAttributes<HTMLFormElement>, 'onSubmit'>) {
   const [error, setError] = useState<string | null>(null)
   const [isValidatingAuth, setIsValidatingAuth] = useState(false)
 
   const [handle, setHandle] = useState('')
   const [password, setPassword] = useState('')
-  const [service, setService] = useState('https://bsky.social')
+  const [service, setService] = useState(config.pdsSuggestions[0] ?? 'https://bsky.social')
   const [authFactor, setAuthFactor] = useState<{
     token: string
     isInvalid: boolean
@@ -107,8 +110,9 @@ export function CredentialSignInForm({
             onChange={(e) => setService(e.target.value)}
           />
           <datalist id="service-url-suggestions">
-            <option value="https://bsky.social" />
-            <option value="https://staging.bsky.dev" />
+            {config.pdsSuggestions.map(pdsUrl => (
+              <option key={pdsUrl} value={pdsUrl} />
+            ))}
           </datalist>
         </div>
         <div>
