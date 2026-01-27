@@ -166,7 +166,6 @@ RUN sed -i 's#"next-runtime-env": .*#"next-runtime-env": "file://usr/src/next-ru
 
 RUN yarn
 RUN yarn atproto:install
-RUN yarn atproto:prebuild
 COPY --exclude=submodules . .
 RUN yarn build
 RUN rm -rf node_modules .next/cache
