@@ -89,6 +89,7 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
   pnpm install --frozen-lockfile
 
 COPY ./submodules/atproto/*.js* ./
+COPY ./submodules/atproto/lexicons ./lexicons
 # NOTE matching transitive dependencies from above
 # pnpm ls --only-projects --parseable -F api... -F oauth-client-browser... -F oauth-types... -F xrpc... -F ozone... | sed 's#^.*atproto/##' | sed 's#^\(.*\)$#COPY ./submodules/atproto/\1 ./\1#'
 COPY ./submodules/atproto/packages/api ./packages/api
@@ -165,6 +166,7 @@ RUN sed -i 's#"next-runtime-env": .*#"next-runtime-env": "file://usr/src/next-ru
 
 RUN yarn
 RUN yarn atproto:install
+RUN yarn atproto:prebuild
 COPY --exclude=submodules . .
 RUN yarn build
 RUN rm -rf node_modules .next/cache
