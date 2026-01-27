@@ -14,6 +14,7 @@ WORKDIR /usr/src/ozone/submodules/atproto/
 RUN corepack enable
 
 COPY submodules/atproto/tsconfig ./tsconfig
+COPY submodules/atproto/.npmrc ./.npmrc
 COPY submodules/atproto/package.json ./package.json
 COPY submodules/atproto/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY submodules/atproto/pnpm-workspace.yaml ./pnpm-workspace.yaml
