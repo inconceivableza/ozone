@@ -167,12 +167,25 @@ RUN sed -i 's#"next-runtime-env": .*#"next-runtime-env": "file://usr/src/next-ru
 
 RUN yarn
 RUN yarn atproto:install
-COPY --exclude=submodules . .
-RUN yarn build
-RUN rm -rf node_modules .next/cache
-RUN mv service/package.json package.json && mv service/yarn.lock yarn.lock
+
+WORKDIR /usr/src/ozone/service
+COPY ./service/package.json ./service/yarn.lock ./service/.yarnrc.yml ./
 RUN yarn
 
+WORKDIR /usr/src/ozone
+COPY --exclude=submodules --exclude=node_modules . .
+RUN yarn build
+RUN rm -rf .next/cache
+RUN rm -rf .yarn/cache
+RUN rm -fr node_modules
+
+WORKDIR /usr/src/ozone/service
+COPY ./service/*.js ./
+RUN yarn build
+RUN rm -rf .yarn/cache
+
+WORKDIR /usr/src/ozone
+RUN ln -s ./service/node_modules ./node_modules
 # final stage
 
 FROM node:20.11-alpine3.18
@@ -180,9 +193,6 @@ FROM node:20.11-alpine3.18
 RUN apk add --update dumb-init
 ENV TZ=Etc/UTC
 
-WORKDIR /usr/src/next-runtime-env
-COPY --from=build /usr/src/next-runtime-env /usr/src/next-runtime-env
-RUN chown -R node:node /usr/src/next-runtime-env
 
 WORKDIR /usr/src/ozone
 COPY --from=build /usr/src/ozone /usr/src/ozone
