@@ -173,7 +173,7 @@ COPY ./service/package.json ./service/yarn.lock ./service/.yarnrc.yml ./
 RUN yarn
 
 WORKDIR /usr/src/ozone
-COPY --exclude=submodules --exclude=node_modules app components cypress docs lib public styles *.md LICENSE* Makefile *.ts* *.js* .
+COPY --exclude=submodules --exclude=node_modules --exclude=service --exclude=".*" . .
 RUN yarn build
 RUN rm -rf .next/cache
 RUN rm -rf .yarn/cache
@@ -194,7 +194,6 @@ RUN apk add --update dumb-init
 ENV TZ=Etc/UTC
 
 USER node:node
-
 
 WORKDIR /usr/src/ozone
 COPY --from=build /usr/src/ozone /usr/src/ozone
