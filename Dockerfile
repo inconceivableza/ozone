@@ -169,7 +169,7 @@ RUN yarn
 RUN yarn atproto:install
 
 WORKDIR /usr/src/ozone/service
-COPY ./service/package.json ./service/yarn.lock ./service/.yarnrc.yml ./
+COPY ./service/package.json ./service/yarn.lock ./
 RUN yarn
 
 WORKDIR /usr/src/ozone
