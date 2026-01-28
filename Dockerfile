@@ -173,7 +173,7 @@ COPY ./service/package.json ./service/yarn.lock ./service/.yarnrc.yml ./
 RUN yarn
 
 WORKDIR /usr/src/ozone
-COPY --exclude=submodules --exclude=node_modules . .
+COPY --exclude=submodules --exclude=node_modules app components cypress docs lib public styles *.md LICENSE* Makefile *.ts* *.js* .
 RUN yarn build
 RUN rm -rf .next/cache
 RUN rm -rf .yarn/cache
