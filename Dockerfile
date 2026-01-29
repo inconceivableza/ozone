@@ -193,7 +193,7 @@ FROM node:20.11-alpine3.18
 RUN apk add --update dumb-init
 ENV TZ=Etc/UTC
 
-RUN mkdir .next/cache
+RUN mkdir -p .next/cache
 RUN chown node:node .next/cache
 USER node:node
 
